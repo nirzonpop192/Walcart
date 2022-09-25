@@ -3,7 +3,6 @@ package com.example.rocketreserver
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo3.ApolloClient
@@ -43,11 +42,21 @@ class MainActivity : AppCompatActivity() {
             }
             val launches = response?.data?.getCategories?.result?.categories?.filterNotNull()
             if (launches != null && !response.hasErrors()) {
-                val adapter = LaunchListAdapter(launches)
+                val adapter = CategoriesListAdapter(this@MainActivity,launches,
+                    object:CategoriesListAdapter.OnItemClickListener{
+                        override fun onItemClick(position: Int) {
+                            binding.tvResult.text=response?.data?.getCategories?.result?.categories?.get(position)?.parents?.size.toString()
+
+                            val SubAdapter = SubCategoriesListAdapter(this@MainActivity,response?.data?.getCategories?.result?.categories?.get(position)?.parents)
+                            binding.rvSubCategories.layoutManager = LinearLayoutManager(this@MainActivity)
+                            binding.rvSubCategories.adapter = SubAdapter
+
+                        }
+                    })
                 binding.rvCategories.layoutManager = LinearLayoutManager(this@MainActivity)
                 binding.rvCategories.adapter = adapter
             }
-           // Log.e("dim", "Success ${response.data}")
+           // Log.e("dim", "Success ${response.data}") SubCategoriesListAdapter
         }
     }
 }
