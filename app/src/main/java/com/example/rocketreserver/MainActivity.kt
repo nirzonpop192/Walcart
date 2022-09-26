@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.exception.ApolloException
 import com.example.rocketreserver.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, MyViewModelFactory(mainRepository)).get(MainViewModel::class.java)
 
 
-        viewModel.movieList.observe(this) {
+        viewModel.categorieList.observe(this) {
             //adapter.setMovies(it)
 
             val adapter = it?.let { it1 ->
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        })
 
-        viewModel.getAllMovies()
+        viewModel.getAllCategories()
 
 
 
