@@ -32,7 +32,7 @@ class CategoriesListAdapter(
         holder.binding.site.text = launch.enName ?: ""
 
         val media = launch.image
-        if (false) {
+        if (media!=null) {
             Glide.with(context)
                 .load(media)
                 .into(holder.binding.ivCategories)
