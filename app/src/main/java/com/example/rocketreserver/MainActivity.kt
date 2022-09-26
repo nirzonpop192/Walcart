@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 val adapter = CategoriesListAdapter(this@MainActivity,launches,
                     object:CategoriesListAdapter.OnItemClickListener{
                         override fun onItemClick(position: Int) {
-                            binding.tvResult.text=response?.data?.getCategories?.result?.categories?.get(position)?.parents?.size.toString()
+                          Log.e("test",response.data?.getCategories?.result?.categories?.get(position)?.parents?.size.toString())
 
                             val SubAdapter = SubCategoriesListAdapter(this@MainActivity,response?.data?.getCategories?.result?.categories?.get(position)?.parents)
                             binding.rvSubCategories.layoutManager = LinearLayoutManager(this@MainActivity)

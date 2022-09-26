@@ -2,18 +2,19 @@ package com.example.rocketreserver
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.rocketreserver.databinding.SubCategoryItemBinding
 
 
 class SubCategoriesListAdapter(
     private val context:Context,
-    private val subCategory: List<GetCategoriesListQuery.Parent1?>?//,
-//    private val mListener: OnItemClickListener?
+    private val subCategory: List<GetCategoriesListQuery.Parent1?>?
 ) :
     RecyclerView.Adapter<SubCategoriesListAdapter.ViewHolder>() {
+
+    private var mExpandedPosition: Int=-1
 
     class ViewHolder(val binding: SubCategoryItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -31,17 +32,15 @@ class SubCategoriesListAdapter(
         val subCates = subCategory?.get(position)
         holder.binding.tvSubCategories.text = subCates?.enName ?: ""
 
+        val isExpanded = position === mExpandedPosition
+        holder.binding.llDetails.setVisibility(if (isExpanded) View.VISIBLE else View.GONE)
+        holder.itemView.isActivated = isExpanded
 
-
-
-//        holder.itemView.setOnClickListener {
-//            mListener?.onItemClick(position)
-//        }
+        holder.itemView.setOnClickListener {
+            mExpandedPosition = if (isExpanded) -1 else position
+            notifyItemChanged(position)
+        }
     }
 
-    interface OnItemClickListener {
-        fun onItemClick( position: Int)
 
-
-    }
 }
